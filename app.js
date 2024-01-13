@@ -82,15 +82,70 @@ function cellCreator(c, timeOut) {
 
 }
 
-/* MOVE TILES */
-document.onkeydown = directions;
+// MOVE TILES
+document.addEventListener("keydown", directions);
+document.addEventListener("touchstart", handleTouchStart, false);
+document.addEventListener("touchmove", handleTouchMove, false);
+
+var xDown = null;
+var yDown = null;
+
+function handleTouchStart(e) {
+  xDown = e.touches[0].clientX;
+  yDown = e.touches[0].clientY;
+}
+
+function handleTouchMove(e) {
+  if (!xDown || !yDown) {
+    return;
+  }
+
+  var xUp = e.touches[0].clientX;
+  var yUp = e.touches[0].clientY;
+
+  var xDiff = xDown - xUp;
+  var yDiff = yDown - yUp;
+
+  if (Math.abs(xDiff) > Math.abs(yDiff)) {
+    if (xDiff > 0) {
+      // Swipe left
+      moveLeft();
+    } else {
+      // Swipe right
+      moveRight();
+    }
+  } else {
+    if (yDiff > 0) {
+      // Swipe up
+      moveUp();
+    } else {
+      // Swipe down
+      moveDown();
+    }
+  }
+
+  // Reset values
+  xDown = null;
+  yDown = null;
+}
 
 function directions(e) {
   e = e || window.event;
-  var d = 0;
-// ----- KEY UP ----- //
-    if (e.keyCode == '38') {      
-      var count = 2;  
+
+  if (e.keyCode == '38') {
+    moveUp();
+  } else if (e.keyCode == '40') {
+    moveDown();
+  } else if (e.keyCode == '37') {
+    moveLeft();
+  } else if (e.keyCode == '39') {
+    moveRight();
+  }
+}
+
+function moveUp() {
+  // Your logic for moving tiles up
+  var count = 2;  
       
       for (var x = 2; x > 1; x--) {
         for (var y = 1; y < 5; y++) {
@@ -104,11 +159,11 @@ function directions(e) {
         if (count > 4) { break; }
       }
       cellReset();
-    }   
-      
-// ----- KEY DOWN ----- //
-    else if (e.keyCode == '40') { // down
-      var count = -2;  
+}
+
+function moveDown() {
+  // Your logic for moving tiles down
+  var count = -2;  
       var test  = 1;
       for (var x = 3; x < 4; x++) {
         for (var y = 1; y < 5; y++) {
@@ -121,14 +176,11 @@ function directions(e) {
         if (count < -4) { break; }
       }
       cellReset();
-    }
-      
-// ----- KEY LEFT ----- //      
-    
-    else if (e.keyCode == '37') { // left
-      
-      
-      var count = 2;  
+}
+
+function moveLeft() {
+  // Your logic for moving tiles left
+  var count = 2;  
       var test  = 1;
       for (var x = 2; x > 1; x--) {
         for (var y = 1; y < 5; y++) {
@@ -141,12 +193,11 @@ function directions(e) {
         if (count > 4) { break; }
       }
       cellReset();
-    }
-  
-// ----- KEY RIGHT ----- //
-    else if (e.keyCode == '39') { // right
-      
-      var count = -2;  
+}
+
+function moveRight() {
+  // Your logic for moving tiles right
+  var count = -2;  
       var noCell = 0;
       var c = 1;
       var d = 0;
@@ -162,9 +213,92 @@ function directions(e) {
         if (count < -4) { break; }
       }
       cellReset();
-    }
-
 }
+
+
+/* MOVE TILES */
+// document.onkeydown = directions;
+
+// function directions(e) {
+//   e = e || window.event;
+//   var d = 0;
+// // ----- KEY UP ----- //
+//     if (e.keyCode == '38') {      
+//       var count = 2;  
+      
+//       for (var x = 2; x > 1; x--) {
+//         for (var y = 1; y < 5; y++) {
+//           moveTilesMain(x, y, -1, 0, 1, 0);
+//           console.info(''+x +y);
+//         }
+//         if (x == 2) {
+//           x += count;
+//           count++;
+//         }
+//         if (count > 4) { break; }
+//       }
+//       cellReset();
+//     }   
+      
+// // ----- KEY DOWN ----- //
+//     else if (e.keyCode == '40') { // down
+//       var count = -2;  
+//       var test  = 1;
+//       for (var x = 3; x < 4; x++) {
+//         for (var y = 1; y < 5; y++) {
+//           moveTilesMain(x, y, 1, 0, 4, 0);
+//         }
+//         if (x == 3) {
+//           x += count;
+//           count--;
+//         }
+//         if (count < -4) { break; }
+//       }
+//       cellReset();
+//     }
+      
+// // ----- KEY LEFT ----- //      
+    
+//     else if (e.keyCode == '37') { // left
+      
+      
+//       var count = 2;  
+//       var test  = 1;
+//       for (var x = 2; x > 1; x--) {
+//         for (var y = 1; y < 5; y++) {
+//           moveTilesMain(y, x, 0, -1, 0, 1);
+//         }
+//         if (x == 2) {
+//           x += count;
+//           count++;
+//         }
+//         if (count > 4) { break; }
+//       }
+//       cellReset();
+//     }
+  
+// // ----- KEY RIGHT ----- //
+//     else if (e.keyCode == '39') { // right
+      
+//       var count = -2;  
+//       var noCell = 0;
+//       var c = 1;
+//       var d = 0;
+      
+//       for (var x = 3; x < 4; x++) {
+//         for (var y = 1; y < 5; y++) {
+//           moveTilesMain(y, x, 0, 1, 0, 4, c, d);
+//         }
+//         if (x == 3) {
+//           x += count;
+//           count--;
+//         }
+//         if (count < -4) { break; }
+//       }
+//       cellReset();
+//     }
+
+// }
 
 //--------------------------------------------------------
 
