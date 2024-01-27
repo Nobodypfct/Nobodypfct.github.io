@@ -5,3 +5,10 @@ window.addEventListener('load', () => {
     telegram.viewportStableHeight = 1000
 })
 
+const eventType = 'viewportChanged'
+
+const eventHandler = () => {
+    telegram.expand()
+}
+
+telegram.onEvent(eventType, eventHandler)
