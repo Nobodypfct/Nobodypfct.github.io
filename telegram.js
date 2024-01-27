@@ -1,1 +1,4 @@
-window.Telegram.WebApp.isExpanded = true
+window.addEventListener('load', () => {
+    window.Telegram.WebApp.expand()
+})
+
