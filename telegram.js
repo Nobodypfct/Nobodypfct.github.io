@@ -1,4 +1,7 @@
+const telegram = window.Telegram.WebApp
+
 window.addEventListener('load', () => {
-    window.Telegram.WebApp.expand()
+    telegram.expand()
+    telegram.viewportStableHeight = '100%'
 })
 
